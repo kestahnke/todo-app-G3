@@ -1,20 +1,21 @@
 version: 0.2
+
 phases:
-install:
-commands:
-- echo install step...
-pre_build:
-commands:
-- echo logging in to AWS ECR...
-- $(aws ecr get-login --no-include-email --region us-east-1)
-build:
-commands:
-- echo build Docker image on `date`
-- cd src
-- docker build -t g3-app:v2:latest .
-- docker tag g3-app:v2:latest 962804699607.dkr.ecr.us-east-2.amazonaws.com/g3-todoapp:latest
-post_build:
-commands:
-- echo build Docker image complete `date`
-- echo push latest Docker images to ECR...
-- docker push 962804699607.dkr.ecr.us-east-2.amazonaws.com/g3-todoapp:latest
+  install:
+    runtime-versions:
+      terraform: 1.1.0
+    commands:
+      - echo "Installing Terraform"
+      - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.1.0/terraform_1.1.0_linux_amd64.zip
+      - unzip terraform.zip
+      - chmod +x terraform
+      - mv terraform /usr/local/bin/
+  build:
+    commands:
+      - echo "Building infrastructure with Terraform"
+      - cd terraform/
+      - terraform init
+      - terraform apply --auto-approve
+  post_build:
+    commands:
+      - echo "Build complete"
