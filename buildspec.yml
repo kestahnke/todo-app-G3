@@ -6,15 +6,14 @@ phases:
   pre_build:
     commands:
       - echo logging in to AWS ECR...
-      - $(aws ecr get-login --no-include-email --region us-east-1)
+      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 962804699607.dkr.ecr.us-west-2.amazonaws.com
   build:
     commands:
       - echo build Docker image on `date`
-      - cd src
-      - docker build -t g3-app:v2:latest .
-      - docker tag g3-app-v2:latest 962804699607.dkr.ecr.us-west-2.amazonaws.com/capstoners:latest
+      - docker build -t todo-repo-g3 .v
+      - docker tag todo-repo-g3:latest 962804699607.dkr.ecr.us-west-2.amazonaws.com/todo-repo-g3:latest
   post_build:
     commands:
       - echo build Docker image complete `date`
       - echo push latest Docker images to ECR...
-      - docker push 962804699607.dkr.ecr.us-west-2.amazonaws.com/capstoners:latest
+      - docker push 962804699607.dkr.ecr.us-west-2.amazonaws.com/todo-repo-g3:latest
