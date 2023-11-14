@@ -10,7 +10,7 @@ phases:
   build:
     commands:
       - echo build Docker image on `date`
-      - docker build -t todo-repo-g3 .v
+      - docker build -t todo-repo-g3 .
       - docker tag todo-repo-g3:latest 962804699607.dkr.ecr.us-west-2.amazonaws.com/todo-repo-g3:latest
   post_build:
     commands:
