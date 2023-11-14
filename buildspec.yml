@@ -11,10 +11,10 @@ phases:
     commands:
       - echo build Docker image on `date`
       - cd src
-      - docker build -t <image name>:latest .
-      - docker tag <image name>:latest <ECR repository URI>:latest
+      - docker build -t g3-app:v2:latest .
+      - docker tag g3-app-v2:latest 962804699607.dkr.ecr.us-west-2.amazonaws.com/capstoners:latest
   post_build:
     commands:
       - echo build Docker image complete `date`
       - echo push latest Docker images to ECR...
-      - docker push <ECR repository URI>:latest
+      - docker push 962804699607.dkr.ecr.us-west-2.amazonaws.com/capstoners:latest
